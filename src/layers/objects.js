@@ -1,76 +1,78 @@
-import {
-  Mesh,
-  MeshLambertMaterial,
-  SphereGeometry
-} from "three";
+import { Mesh, MeshLambertMaterial, SphereGeometry } from "three"
 
 const THREE = window.THREE
   ? window.THREE // Prefer consumption from global THREE, if exists
   : {
-    Mesh,
-    MeshLambertMaterial,
-    SphereGeometry
-  };
+      Mesh,
+      MeshLambertMaterial,
+      SphereGeometry,
+    }
 
-import Kapsule from 'kapsule';
-import accessorFn from 'accessor-fn';
+import accessorFn from "accessor-fn"
+import Kapsule from "kapsule"
 
-import { emptyObject } from '../utils/gc';
-import threeDigest from '../utils/digest';
-import { polar2Cartesian } from '../utils/coordTranslate';
+import { polar2Cartesian } from "../utils/coordTranslate"
+import threeDigest from "../utils/digest"
+import { emptyObject } from "../utils/gc"
 
 //
 
 export default Kapsule({
   props: {
     objectsData: { default: [] },
-    objectLat: { default: 'lat' },
-    objectLng: { default: 'lng' },
+    objectLat: { default: "lat" },
+    objectLng: { default: "lng" },
     objectAltitude: { default: 0.01 }, // in units of globe radius
-    objectThreeObject: { default: new THREE.Mesh(
-      // default object: yellow sphere
-      new THREE.SphereGeometry(1, 16, 8),
-      new THREE.MeshLambertMaterial({ color: '#ffffaa', transparent: true, opacity: 0.7 })
-    )}
+    objectThreeObject: {
+      default: new THREE.Mesh(
+        // default object: yellow sphere
+        new THREE.SphereGeometry(1, 16, 8),
+        new THREE.MeshLambertMaterial({
+          color: "#ffffaa",
+          transparent: true,
+          opacity: 0.7,
+        })
+      ),
+    },
   },
 
   init(threeObj, state) {
     // Clear the scene
-    emptyObject(threeObj);
+    emptyObject(threeObj)
 
     // Main three object to manipulate
-    state.scene = threeObj;
+    state.scene = threeObj
   },
 
   update(state, changedProps) {
     // Data accessors
-    const latAccessor = accessorFn(state.objectLat);
-    const lngAccessor = accessorFn(state.objectLng);
-    const altitudeAccessor = accessorFn(state.objectAltitude);
-    const threeObjAccessor = accessorFn(state.objectThreeObject);
+    const latAccessor = accessorFn(state.objectLat)
+    const lngAccessor = accessorFn(state.objectLng)
+    const altitudeAccessor = accessorFn(state.objectAltitude)
+    const threeObjAccessor = accessorFn(state.objectThreeObject)
 
     threeDigest(state.objectsData, state.scene, {
       // objs need to be recreated if this prop has changed
-      purge: changedProps.hasOwnProperty('objectThreeObject'),
-      createObj: d => {
-        let obj = threeObjAccessor(d);
+      purge: changedProps.hasOwnProperty("objectThreeObject"),
+      createObj: (d) => {
+        let obj = threeObjAccessor(d)
 
         if (state.objectThreeObject === obj) {
           // clone object if it's a shared object among all points
-          obj = obj.clone();
+          obj = obj.clone()
         }
 
-        obj.__globeObjType = 'object'; // Add object type
+        obj.__globeObjType = "object" // Add object type
 
-        return obj;
+        return obj
       },
       updateObj: (obj, d) => {
-        const lat = +latAccessor(d);
-        const lng = +lngAccessor(d);
-        const alt = +altitudeAccessor(d);
+        const lat = +latAccessor(d)
+        const lng = +lngAccessor(d)
+        const alt = +altitudeAccessor(d)
 
-        Object.assign(obj.position, polar2Cartesian(lat, lng, alt));
-      }
-    });
-  }
-});
+        Object.assign(obj.position, polar2Cartesian(lat, lng, alt))
+      },
+    })
+  },
+})

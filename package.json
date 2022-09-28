@@ -1,17 +1,17 @@
 {
-  "name": "three-globe",
+  "name": "three-globe-fork",
   "version": "2.24.8",
   "description": "Globe data visualization as a ThreeJS reusable 3D object",
-  "unpkg": "dist/three-globe.min.js",
-  "main": "dist/three-globe.common.js",
-  "module": "dist/three-globe.module.js",
-  "types": "dist/three-globe.d.ts",
+  "unpkg": "dist/three-globe-fork.min.js",
+  "main": "dist/three-globe-fork.common.js",
+  "module": "dist/three-globe-fork.module.js",
+  "types": "dist/three-globe-fork.d.ts",
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vasturiano/three-globe.git"
+    "url": "git+https://github.com/vasturiano/three-globe-fork.git"
   },
-  "homepage": "https://github.com/vasturiano/three-globe",
+  "homepage": "https://github.com/vasturiano/three-globe-fork",
   "keywords": [
     "3d",
     "globe",
@@ -25,7 +25,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vasturiano/three-globe/issues"
+    "url": "https://github.com/vasturiano/three-globe-fork/issues"
   },
   "scripts": {
     "build": "rimraf dist && rollup -c",

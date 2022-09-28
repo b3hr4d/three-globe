@@ -1,1 +1,1 @@
-export { default } from './three-globe.js';
+export { default } from "./three-globe-fork.js"
